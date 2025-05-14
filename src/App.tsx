@@ -1,15 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import NavBar from './layout/SideBar'
 
+import './App.css'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ListAlumnos from './views/alumnos/ListAlumnos';
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-      <NavBar />
+      <Router>
+        <Routes>
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/alumnos" element={<ListAlumnos/>} />
+          <Route path="/alumnos/:id" element={<h1>About</h1>} />
+          <Route path="/actividades" element={<h1>Contact</h1>} />
+        </Routes>
+      </Router>
     </>
   )
 }
