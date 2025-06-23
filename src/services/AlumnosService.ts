@@ -1,8 +1,9 @@
-
 import axios from "axios";
 import { toast } from "react-toastify";
+import type { IAlumno } from "../views/alumnos/AlumnoDetail";
+import type { IAlumnoListado } from "../views/alumnos/ListAlumnos";
 
-interface IFamiliar {
+/* interface IFamiliar {
   fechaNac: string;
   id: number;
   nombre: string;
@@ -28,27 +29,9 @@ interface IActividad {
   fecha_fin: string;
   estado: "Activa" | "Inactiva";
   en_lista_espera: string;
-}
+} */
 
-export interface IAlumno {
-  id: number;
-  nombre: string;
-  apellido: string;
-  dni: string;
-  fechaNac: string;
-  direccion: string;
-  barrio: string;
-  socioEducativo: boolean;
-  escuela: string;
-  anioEscolar: string;
-  familiares: IFamiliar[];
-  actividades: IActividad[];
-  documentacion: IDocumentacion[];
-}
-
-
-
-const API_URL = "http://localhost/api/api.php/";
+const API_URL = "http://localhost/colegioApi/";
 interface GetAlumnosParams {
   busqueda?: string;
   barrio?: string;
@@ -58,7 +41,7 @@ interface GetAlumnosParams {
 class AlumnosService {
   public async getAlumnos(
     params: GetAlumnosParams = {}
-  ): Promise<{ data: unknown; cant: number }> {
+  ): Promise<{ data: IAlumnoListado[]; cant: number }> {
     const query = new URLSearchParams();
 
     if (params.busqueda) query.append("busqueda", params.busqueda);
@@ -205,6 +188,5 @@ class AlumnosService {
     }
   }
 }
-
 
 export default new AlumnosService();

@@ -1,9 +1,7 @@
-import { IActividad } from "@/app/actividades/page";
 import axios from "axios";
 import { toast } from "react-toastify";
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:3000/ColegioApp/actividad";
+import type { IActividad } from "../views/alumnos/components/InscripcionModal";
+const API_URL = "https://c2830044.ferozo.com/colegioApi/";
 
 export interface IInscripto {
   id: number;
@@ -148,5 +146,5 @@ class ActividadService {
     }
   }
 }
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export default new ActividadService();
