@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import type { IActividad } from "../views/alumnos/components/InscripcionModal";
-const API_URL = "https://c2830044.ferozo.com/colegioApi/";
+const API_URL = "http://localhost/api/";
 
 export interface IInscripto {
   id: number;

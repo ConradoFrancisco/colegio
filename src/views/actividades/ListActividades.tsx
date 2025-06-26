@@ -143,7 +143,7 @@ export default function ListActividades() {
               <th>Turno</th>
               <th>fecha de inicio</th>
               <th>Fecha de cierre</th>
-              <th>Estado</th>
+              
               <th /* className="d-flex" */ style={{ width: "11%" }}>
                 Inscripciones
               </th>
@@ -159,11 +159,7 @@ export default function ListActividades() {
                 <td>{a.turno}</td>
                 <td>{a.fecha_inicio}</td>
                 <td>{a.fecha_fin}</td>
-                <td>
-                  <Badge bg={a.estado === "Activa" ? "success" : "warning"}>
-                    {a.estado}
-                  </Badge>
-                </td>
+                
                 <td>
                   <button className="btn btn-primary" onClick={()=>{
                     setActividadSeleccionada(a);
@@ -177,19 +173,7 @@ export default function ListActividades() {
                     }}}>
                     <FaEdit />
                   </button>
-                  <button
-                  onClick={() => {
-                    setActividadSeleccionada(a);
-                    setShowActionModal({show:true,action:'estado'});
-                  }}
-                    className={`${
-                      a.estado === "Activa"
-                        ? "btn btn-secondary"
-                        : "btn btn-success"
-                    }`}
-                  >
-                    {a.estado === "Activa" ? <FaPause /> : <FaPlay />}
-                  </button>
+                 
                   <button onClick={() => {
                     setActividadSeleccionada(a);
                     setShowActionModal({show:true,action:'eliminar'});

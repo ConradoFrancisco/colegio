@@ -25,7 +25,7 @@ export interface IAlumnoListado {
 }
 
 export default function ListAlumnos() {
-/*   const [ordenCampo, setOrdenCampo] = useState("apellido");
+  /*   const [ordenCampo, setOrdenCampo] = useState("apellido");
   const [ordenDireccion, setOrdenDireccion] = useState<"ASC" | "DESC">("ASC"); */
   const [alumnos, setAlumnos] = useState<IAlumnoListado[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -35,6 +35,9 @@ export default function ListAlumnos() {
   const [busqueda, setBusqueda] = useState("");
   const [barrio, setBarrio] = useState("");
   const [, setFlag] = useState(0);
+  const [ordenCampo, setOrdenCampo] =
+    useState<keyof IAlumnoListado>("apellido");
+  const [ordenDireccion, setOrdenDireccion] = useState<"ASC" | "DESC">("ASC");
   // Simulación de datos hasta traerlos desde el backend
   /* const alumnos : IAlumnoListado[] = [
     { id: 1, nombre: 'Valentina', apellido: 'Gómez',fechaNac: '2000-01-01',dni: '12345678',barrio: 'Centro',direccion: 'Av. Libertador 1234' },
@@ -60,15 +63,26 @@ export default function ListAlumnos() {
         barrio,
         limit, // o el número que quieras
         offset, // más adelante podés hacer paginación real
+        orderCampo: ordenCampo,
+        orderDireccion: ordenDireccion,
       });
     setTotal(response.cant); // o 'total' si cambiaste eso en el backend
     setAlumnos(response.data);
   };
-
+  const handleSort = (campo: keyof IAlumnoListado) => {
+    if (ordenCampo === campo) {
+      // Si hago click en el mismo campo, invierto la dirección
+      setOrdenDireccion(ordenDireccion === "ASC" ? "DESC" : "ASC");
+    } else {
+      // Si hago click en otro campo, lo seteo y empiezo en ASC
+      setOrdenCampo(campo);
+      setOrdenDireccion("ASC");
+    }
+  };
   useEffect(() => {
     getAlumnos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, offset]);
+  }, [limit, offset, ordenCampo, ordenDireccion]);
   return (
     <>
       <SideBar />
@@ -141,14 +155,49 @@ export default function ListAlumnos() {
           <Table striped bordered hover responsive>
             <thead>
               <tr>
-                <th>Apellido</th>
-                <th>Nombre</th>
-                <th>Fecha de Nacimiento</th>
-                <th>DNI</th>
+                <th
+                  onClick={() => handleSort("apellido")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Apellido{" "}
+                  {ordenCampo === "apellido" &&
+                    (ordenDireccion === "ASC" ? "▲" : "▼")}
+                </th>
+                <th
+                  onClick={() => handleSort("nombre")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Nombre{" "}
+                  {ordenCampo === "nombre" &&
+                    (ordenDireccion === "ASC" ? "▲" : "▼")}
+                </th>
+                <th
+                  onClick={() => handleSort("fecha_nacimiento")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Fecha de Nacimiento{" "}
+                  {ordenCampo === "fecha_nacimiento" &&
+                    (ordenDireccion === "ASC" ? "▲" : "▼")}
+                </th>
+                <th
+                  onClick={() => handleSort("dni")}
+                  style={{ cursor: "pointer" }}
+                >
+                  DNI{" "}
+                  {ordenCampo === "dni" &&
+                    (ordenDireccion === "ASC" ? "▲" : "▼")}
+                </th>
                 <th>Barrio</th>
                 <th>Dirección</th>
                 <th>Escuela</th>
-                <th>prioridad</th>
+                <th
+                  onClick={() => handleSort("prioridad")}
+                  style={{ cursor: "pointer" }}
+                >
+                  Prioridad{" "}
+                  {ordenCampo === "prioridad" &&
+                    (ordenDireccion === "ASC" ? "▲" : "▼")}
+                </th>
                 <th>Acciones</th>
               </tr>
             </thead>
