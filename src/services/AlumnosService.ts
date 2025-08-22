@@ -31,12 +31,13 @@ interface IActividad {
   en_lista_espera: string;
 } */
 
-const API_URL = "http://localhost/api/";
+const API_URL = "http://localhost/colegioApi/";
 interface GetAlumnosParams {
   busqueda?: string;
   barrio?: string;
   limit?: number;
   offset?: number;
+  actividad?: number;
   orderCampo?: keyof IAlumnoListado;
   orderDireccion?: "ASC" | "DESC";
 }
@@ -47,9 +48,11 @@ class AlumnosService {
     const query = new URLSearchParams();
 
     if (params.busqueda) query.append("busqueda", params.busqueda);
+    if (params.actividad) query.append("actividad", params.actividad.toString());
     if (params.barrio) query.append("barrio", params.barrio);
     if (params.orderCampo) query.append("orden", params.orderCampo);
-    if (params.orderDireccion) query.append("orderDirection", params.orderDireccion);
+    if (params.orderDireccion)
+      query.append("orderDirection", params.orderDireccion);
     if (params.limit !== undefined)
       query.append("limit", params.limit.toString());
     if (params.offset !== undefined)

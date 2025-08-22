@@ -7,6 +7,8 @@ import AlumnoModal from "./components/AlumnoModal";
 import AlumnosService from "../../services/AlumnosService";
 import SideBar from "../../layout/SideBar";
 import Panel from "../../layout/Panel";
+import ActividadService from "../../services/ActividadService";
+import type { IActividad } from "./components/InscripcionModal";
 export interface IAlumnoListado {
   id: string;
   nombre: string;
@@ -16,6 +18,7 @@ export interface IAlumnoListado {
   dni: string;
   edad: string;
   escuela: string;
+  actividad:string;
   fecha_nacimiento: string;
   socio_educativo: string;
   last_modified: string | null;
@@ -28,8 +31,10 @@ export default function ListAlumnos() {
   /*   const [ordenCampo, setOrdenCampo] = useState("apellido");
   const [ordenDireccion, setOrdenDireccion] = useState<"ASC" | "DESC">("ASC"); */
   const [alumnos, setAlumnos] = useState<IAlumnoListado[]>([]);
+  const [actividades, setActividades] = useState<IActividad[]>([]);
+  const [actividad, setActividad] = useState<string | undefined>(undefined);
   const [showModal, setShowModal] = useState(false);
-  const [limit] = useState(4);
+  const [limit] = useState(20);
   const [offset, setOffset] = useState(0);
   const [total, setTotal] = useState(0);
   const [busqueda, setBusqueda] = useState("");
@@ -59,6 +64,7 @@ export default function ListAlumnos() {
   const getAlumnos = async () => {
     const response: { cant: number; data: IAlumnoListado[] } =
       await AlumnosService.getAlumnos({
+        actividad: actividad ? parseInt(actividad) : undefined,
         busqueda,
         barrio,
         limit, // o el número que quieras
@@ -69,6 +75,11 @@ export default function ListAlumnos() {
     setTotal(response.cant); // o 'total' si cambiaste eso en el backend
     setAlumnos(response.data);
   };
+  const getActividades = async () => {
+    const response = await ActividadService.getAll();
+    console.log(response.data);
+    setActividades(response.data);
+  }
   const handleSort = (campo: keyof IAlumnoListado) => {
     if (ordenCampo === campo) {
       // Si hago click en el mismo campo, invierto la dirección
@@ -79,10 +90,12 @@ export default function ListAlumnos() {
       setOrdenDireccion("ASC");
     }
   };
+
   useEffect(() => {
+    getActividades()
     getAlumnos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [limit, offset, ordenCampo, ordenDireccion]);
+  }, [limit, offset, ordenCampo, ordenDireccion, actividad]);
   return (
     <>
       <SideBar />
@@ -107,7 +120,7 @@ export default function ListAlumnos() {
                 </Accordion.Header>
                 <Accordion.Body>
                   <div className="row">
-                    <div className="col-md-6 mb-3">
+                    <div className="col-md-3 mb-3">
                       <input
                         type="text"
                         className="form-control"
@@ -124,6 +137,20 @@ export default function ListAlumnos() {
                         value={barrio}
                         onChange={(e) => setBarrio(e.target.value)}
                       />
+                    </div>
+                    <div className="col-md-3 mb-3">
+                      <select
+                        className="form-select"
+                        value={actividad}
+                        onChange={(e) => setActividad(e.target.value)}
+                      >
+                        <option value={undefined}>Seleccionar actividad</option>
+                        {actividades.map((act) => (
+                          <option key={act.id} value={act.id}>
+                            {act.nombre}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                     <div className="col-md-3 mb-3 justify-content-between d-flex gap-2">
                       <button
@@ -190,6 +217,7 @@ export default function ListAlumnos() {
                 <th>Barrio</th>
                 <th>Dirección</th>
                 <th>Escuela</th>
+                <th>Actividad</th>
                 <th
                   onClick={() => handleSort("prioridad")}
                   style={{ cursor: "pointer" }}
@@ -198,6 +226,7 @@ export default function ListAlumnos() {
                   {ordenCampo === "prioridad" &&
                     (ordenDireccion === "ASC" ? "▲" : "▼")}
                 </th>
+                
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -211,6 +240,7 @@ export default function ListAlumnos() {
                   <td>{a.barrio}</td>
                   <td>{a.direccion}</td>
                   <td>{a.escuela}</td>
+                  <td>{a.actividad !== null ? a.actividad : "No inscripto"}</td>
                   <td>
                     {a.prioridad === 0 ? (
                       <Badge bg="black">No asignada </Badge>

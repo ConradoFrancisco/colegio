@@ -2,9 +2,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, Container, Table, Badge, Accordion } from "react-bootstrap";
+import { Button, Container, Table, Accordion } from "react-bootstrap";
 
-import { FaEdit, FaPause, FaPlay, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import SideBar from "../../layout/SideBar";
 
 
