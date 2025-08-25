@@ -501,7 +501,7 @@ export default function AlumnoDetai() {
                 {/* Pregunta 3 */}
                 <div className="col-md-12">
                   <label htmlFor="frecuenciaEscuela" className="form-label">
-                    ¿Cuántas veces a la semana asiste a la escuela?
+                    Situacion escolar
                   </label>
                   <select
                     value={frecuenciaEscuela}
@@ -512,14 +512,14 @@ export default function AlumnoDetai() {
                     className="form-select"
                   >
                     <option value={1}>
-                      Entre 4 y 5 veces por semana (Regular)
+                      Regular
                     </option>
                     <option value={2}>
-                      Regular pero no permanece toda la jornada
+                      Discontinua
                     </option>
-                    <option value={3}>2 o 3 veces por semana</option>
-                    <option value={4}>Menos de 2 veces por semana</option>
-                    <option value={5}>No asiste</option>
+                    <option value={3}>Dif Pedag.</option>
+                    <option value={4}>Dif ped y Disc</option>
+                    <option value={5}>Desvinculación</option>
                   </select>
                 </div>
 

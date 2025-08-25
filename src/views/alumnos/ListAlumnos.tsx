@@ -9,6 +9,7 @@ import SideBar from "../../layout/SideBar";
 import Panel from "../../layout/Panel";
 import ActividadService from "../../services/ActividadService";
 import type { IActividad } from "./components/InscripcionModal";
+import { exportToExcel } from "../../services/ExcelService";
 export interface IAlumnoListado {
   id: string;
   nombre: string;
@@ -48,6 +49,22 @@ export default function ListAlumnos() {
     { id: 1, nombre: 'Valentina', apellido: 'Gómez',fechaNac: '2000-01-01',dni: '12345678',barrio: 'Centro',direccion: 'Av. Libertador 1234' },
     { id: 2, nombre: 'Lucas', apellido: 'Fernández',fechaNac: '2000-01-01',dni: '12345679',barrio: 'Centro',direccion: 'Av. Libertador 1234' },
   ] */
+   const [mes, setMes] = useState(new Date().toLocaleString('default', { month: 'long' }));
+   
+  const handleExport = async () => {
+  if (!actividad) {
+    alert('Por favor, selecciona una actividad primero');
+    return;
+  }
+  
+  try {
+    const actividadNombre = actividades.find(a => a.id === parseInt(actividad))?.nombre || actividad;
+    await exportToExcel(alumnos, actividadNombre, mes);
+  } catch (error) {
+    console.error('Error al exportar:', error);
+    alert('Error al exportar el archivo');
+  }
+};
   const handleCreateAlumno = async (data: unknown) => {
     try {
       // Acá harías la llamada a tu backend para guardar el nuevo alumno
@@ -104,12 +121,41 @@ export default function ListAlumnos() {
           <div className="d-flex justify-content-between">
             <h2 className="mb-4">Listado de Alumnos</h2>
             <div className="">
+              <button 
+                className="btn btn-success" 
+                onClick={handleExport}
+                disabled={!actividad}
+              >
+                Exportar a Excel
+              </button>
               <button
                 className="btn btn-primary"
                 onClick={() => setShowModal(true)}
               >
                 + Añadir alumno
               </button>
+            </div>
+          </div>
+           <div className="row mb-3">
+            <div className="col-md-3">
+              <select 
+                className="form-select" 
+                value={mes}
+                onChange={(e) => setMes(e.target.value)}
+              >
+                <option value="enero">Enero</option>
+                <option value="febrero">Febrero</option>
+                <option value="marzo">Marzo</option>
+                <option value="abril">Abril</option>
+                <option value="mayo">Mayo</option>
+                <option value="junio">Junio</option>
+                <option value="julio">Julio</option>
+                <option value="agosto">Agosto</option>
+                <option value="septiembre">Septiembre</option>
+                <option value="octubre">Octubre</option>
+                <option value="noviembre">Noviembre</option>
+                <option value="diciembre">Diciembre</option>
+              </select>
             </div>
           </div>
           <div className="row">
