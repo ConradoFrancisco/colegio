@@ -30,8 +30,8 @@ interface IActividad {
   estado: "Activa" | "Inactiva";
   en_lista_espera: string;
 } */
-const API_URL = "https://c2830044.ferozo.com/colegioApi/";
-/* const API_URL = "http://localhost/colegioApi/"; */
+/* const API_URL = "https://c2830044.ferozo.com/colegioApi/"; */
+const API_URL = "http://localhost/colegioApi/";
 interface GetAlumnosParams {
   busqueda?: string;
   barrio?: string;
