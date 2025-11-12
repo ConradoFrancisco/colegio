@@ -501,7 +501,7 @@ export default function AlumnoDetai() {
                 {/* Pregunta 3 */}
                 <div className="col-md-12">
                   <label htmlFor="frecuenciaEscuela" className="form-label">
-                    Situacion escolar
+                    Trayectoria escolar
                   </label>
                   <select
                     value={frecuenciaEscuela}
@@ -517,8 +517,8 @@ export default function AlumnoDetai() {
                     <option value={2}>
                       Discontinua
                     </option>
-                    <option value={3}>Dif Pedag.</option>
-                    <option value={4}>Dif ped y Disc</option>
+                    <option value={3}>Dificultades pedagógicas </option>
+                    <option value={4}>Discontinua/dificultades pedagógicas </option>
                     <option value={5}>Desvinculación</option>
                   </select>
                 </div>

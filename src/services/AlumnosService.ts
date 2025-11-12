@@ -30,8 +30,8 @@ interface IActividad {
   estado: "Activa" | "Inactiva";
   en_lista_espera: string;
 } */
-
-const API_URL = "http://localhost/colegioApi/";
+const API_URL = "https://c2830044.ferozo.com/colegioApi/";
+/* const API_URL = "http://localhost/colegioApi/"; */
 interface GetAlumnosParams {
   busqueda?: string;
   barrio?: string;
@@ -48,7 +48,8 @@ class AlumnosService {
     const query = new URLSearchParams();
 
     if (params.busqueda) query.append("busqueda", params.busqueda);
-    if (params.actividad) query.append("actividad", params.actividad.toString());
+    if (params.actividad)
+      query.append("actividad", params.actividad.toString());
     if (params.barrio) query.append("barrio", params.barrio);
     if (params.orderCampo) query.append("orden", params.orderCampo);
     if (params.orderDireccion)
